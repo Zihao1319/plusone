@@ -1,0 +1,7 @@
+package com.plueone.server.models.JwtAuth;
+
+public enum ERole {
+    ROLE_USER,
+    ROLE_MODERATOR,
+    ROLE_ADMIN
+}
