@@ -1,33 +1,54 @@
 package com.plueone.server.models.JwtAuth;
 
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-public class Role {
-    private Integer id;
-    private String roleName;
+import org.springframework.security.core.GrantedAuthority;
 
-    public Integer getId() {
-        return id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "roles")
+public class Role implements GrantedAuthority {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "role_id")
+    private Integer roleId;
+
+    private String authority;
+
+    public Role() {
+        super();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Role(String authority) {
+        this.authority = authority;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public Role(Integer roleId, String authority) {
+        this.roleId = roleId;
+        this.authority = authority;
     }
 
-    public void setRoleName(String name) {
-        this.roleName = name;
+    @Override
+    public String getAuthority() {
+        return this.authority;
     }
 
-    public static Role populate(SqlRowSet rs) {
-        Role r = new Role();
-
-        r.setRoleName(rs.getString("name"));
-        r.setId(rs.getInt("id"));
-
-        return r;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
+
+    public Integer getRoleId() {
+        return this.roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
 }

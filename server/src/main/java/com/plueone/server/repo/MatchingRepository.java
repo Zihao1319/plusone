@@ -29,7 +29,7 @@ public class MatchingRepository {
             "LEFT JOIN (" +
             "  SELECT user_id, COUNT(interest_id) AS score, COUNT(DISTINCT interest_id) AS totalInterests " +
             "  FROM userInterest " +
-            "  WHERE user_id IN (?)" +
+            "  WHERE user_id IN (?) " +
             "  GROUP BY user_id" +
             ") refInterest ON refInterest.user_id = ? " +
             "LEFT JOIN (" +
@@ -60,7 +60,13 @@ public class MatchingRepository {
             "  GROUP BY us.user_id" +
             ") us ON u.user_id = us.user_id " +
             "WHERE u.user_id != ? " +
-            "AND ui.score / refInterest.score !=0 " +
+            "AND ui.score / refInterest.score != 0 " +
+            "AND NOT EXISTS (" +
+            "  SELECT 1 " +
+            "  FROM friendship f " +
+            "  WHERE (f.requestor_id = u.user_id AND f.requestee_id = ?) " +
+            "    OR (f.requestor_id = ? AND f.requestee_id = u.user_id) " +
+            ") " +
             "ORDER BY interest_matching_score DESC, subInterest_matching_score DESC";
 
     public List<String> getMatchedInterestsAndProfile(String userId, Preference preference) {
@@ -153,7 +159,7 @@ public class MatchingRepository {
         final List<MatchingScore> matches = new LinkedList<>();
 
         final SqlRowSet rs = jdbcTemplate.queryForRowSet(FIND_USERS_WITH_INTERESTS_AND_SUBINTERESTS, userId, userId,
-                userId, userId, userId, userId, userId, userId, userId);
+                userId, userId, userId, userId, userId, userId, userId, userId, userId);
 
         while (rs.next()) {
             MatchingScore match = new MatchingScore();

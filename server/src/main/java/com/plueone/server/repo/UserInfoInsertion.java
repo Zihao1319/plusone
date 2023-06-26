@@ -42,17 +42,17 @@ public class UserInfoInsertion {
 
         private static final String INSERT_USER_PREFERENCE_SQL = "insert into preference (user_id, race_pref_id, gender_pref, diet_pref_id, minHeight, maxHeight, minAge, maxAge) values (?, ?, ?, ?, ?, ?, ?, ?)"
                         +
-                        "on duplicate key update race_pref_id = VALUES (race_pref_id), gender_pref = VALUES (gender_pref)"
+                        " on duplicate key update race_pref_id = VALUES(race_pref_id), gender_pref = VALUES(gender_pref),"
                         +
-                        "diet_pref_id = VALUES(diet_pref_id), minHeight = VALUES (minHeight), maxHeight = VALUES (maxHeight)"
+                        " diet_pref_id = VALUES(diet_pref_id), minHeight = VALUES(minHeight), maxHeight = VALUES(maxHeight),"
                         +
-                        "minAge = VALUES(minAge), maxAge = VALUES (maxAge)";
+                        " minAge = VALUES(minAge), maxAge = VALUES(maxAge)";
 
         private static final String INSERT_USER_IMAGES_SQL = "insert into images (user_id, url) values (?, ?)";
 
         private static final String INSERT_USER_INTEREST_SQL = "insert into userInterest (user_id, interest_id) values (?, ?)";
 
-        private static final String INSERT_USER_SUB_INTEREST_SQL = "insert into userSubinterest (user_id, sub_interest_id) values (?, ?)";
+        private static final String INSERT_USER_SUB_INTEREST_SQL = "insert into userSubinterest (user_id, sub_interest_id, interest_id) values (?, ?, ?)";
 
         private static final String INSERT_USER_PERSONALITY_SQL = "insert into userPersonality (user_id, personality_id) values (?, ?)";
 
@@ -111,12 +111,17 @@ public class UserInfoInsertion {
 
         public int createOrUpdatePreference(String userId, Preference preference) {
 
-                int rowUpdated = jdbcTemplate.update(INSERT_USER_PREFERENCE_SQL, userId, preference.getRacePrefId(),
+                System.out.printf(">>>>>>>>> userid: %s\n", userId);
+                System.out.printf(">>>>>>>>> %s\n", INSERT_USER_PREFERENCE_SQL);
+                System.out.printf(">>>>>>>> %s\n", preference);
+
+                int rowUpdated = jdbcTemplate.update(INSERT_USER_PREFERENCE_SQL, userId,
+                                preference.getRacePrefId(),
                                 preference.getGenderPref(),
                                 preference.getDietPrefId(), preference.getMinHeight(), preference.getMaxHeight(),
                                 preference.getMinAge(), preference.getMaxAge());
 
-                System.out.printf(">>>>>createOrUpdateProfile rows updated: %d\n", rowUpdated);
+                System.out.printf(">>>>>createOrUpdatePreference rows updated: %d\n", rowUpdated);
 
                 return rowUpdated;
 
@@ -150,7 +155,7 @@ public class UserInfoInsertion {
         public int[] insertUserSubInterest(String userId, List<Subinterest> subInterests) {
 
                 List<Object[]> params = subInterests.stream()
-                                .map(sub -> new Object[] { userId, sub.getSubInterestId() })
+                                .map(sub -> new Object[] { userId, sub.getSubInterestId(), sub.getInterestId() })
                                 .collect(Collectors.toList());
 
                 int[] added = jdbcTemplate.batchUpdate(INSERT_USER_SUB_INTEREST_SQL, params);
