@@ -57,11 +57,7 @@ public class SecurityConfig {
                     auth.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .logout((logout -> {
-                    logout.logoutUrl("/logout");
-                    logout.permitAll();
-                }));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.cors();
         return http.build();
     }
