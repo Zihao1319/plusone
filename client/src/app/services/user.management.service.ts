@@ -12,8 +12,11 @@ export class UserManagementService {
   userId!: string;
   viewOtherUserId!: string;
 
-  private LOGIN_API: string = 'http://localhost:8080/auth/login';
-  private REGISTER_API = 'http://localhost:8080/auth/register';
+  private BACKEND_API: string = 'https://rebel-lip-production.up.railway.app';
+  // private BACKEND_API: string = 'http://localhost:8080';
+
+  private LOGIN_API: string = this.BACKEND_API + '/auth/login';
+  private REGISTER_API = this.BACKEND_API + '/auth/register';
 
   private loggedInSub = new BehaviorSubject<boolean>(false);
   loggedIn$ = this.loggedInSub.asObservable();
@@ -51,7 +54,7 @@ export class UserManagementService {
 
   getUserToken() {
     const token = localStorage.getItem('token');
-    console.log(token);
+    // console.log(token);
 
     if (!token) {
       this.clearInfo();

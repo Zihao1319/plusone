@@ -15,7 +15,8 @@ export class ChatService {
 
   headers = this.userSvc.setTokenRequest();
 
-  private BACKEND_API: string = 'http://localhost:8080/api';
+  private BACKEND_API: string = 'https://rebel-lip-production.up.railway.app/api';
+  // private BACKEND_API: string = 'http://localhost:8080/api';
 
   getChatId(userId1: string, userId2: string) {
     const GET_CHAT_ID = this.BACKEND_API + '/getchatid';
@@ -42,7 +43,7 @@ export class ChatService {
   createChatId(userId1: string, userId2: string) {
     const CREATE_CHAT_ID = this.BACKEND_API + '/create/newchatid';
     const params = new HttpParams().set('id1', userId1).set('id2', userId2);
-    console.log(this.headers);
+    // console.log(this.headers);
     return lastValueFrom(
       this.httpClient.get<any>(CREATE_CHAT_ID, {
         params: params,

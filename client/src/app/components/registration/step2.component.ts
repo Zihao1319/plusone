@@ -65,7 +65,7 @@ export class Step2Component implements OnInit {
 
     this.options = await this.fetchOptions();
 
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   createForm() {
@@ -91,7 +91,7 @@ export class Step2Component implements OnInit {
   async getProfile() {
     await this.infoRtrvSvc.getCompleteProfile(this.userId!).then((res) => {
       this.data = {};
-      console.log(res);
+      // console.log(res);
 
       if (res['Personalities']) {
         this.data.personalityId = res['Personalities'].map((p: any) => {
@@ -123,7 +123,7 @@ export class Step2Component implements OnInit {
     //   this.interestPersonalityForm.value
     // );
     this.onNext.next(this.interestPersonalityForm.value);
-    console.log(this.interestPersonalityForm.value);
+    // console.log(this.interestPersonalityForm.value);
   }
 
   previous() {
@@ -135,7 +135,7 @@ export class Step2Component implements OnInit {
   }
 
   async editForm() {
-    console.log(this.interestPersonalityForm.value);
+    // console.log(this.interestPersonalityForm.value);
     await this.infoUploadSvc.performPersonalityOps(
       this.userId!,
       this.interestPersonalityForm.value

@@ -11,12 +11,14 @@ import { UserManagementService } from 'src/app/services/user.management.service'
   styleUrls: ['./match.component.css'],
 })
 export class MatchComponent implements OnInit {
+
   isProfileMode: Boolean = false;
   token!: string;
   userId!: string | null;
   interestScore!: number;
   subInterestScore!: number;
   index = 0;
+  isLoading: boolean = false;
 
   potentialMatches: any[] = [];
   interestMatches: any[] = [];
@@ -35,6 +37,7 @@ export class MatchComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.isLoading = true;
     this.userId = this.userSvc.getUserId();
 
     if (!this.userId) {
@@ -63,7 +66,7 @@ export class MatchComponent implements OnInit {
             status: status,
           };
         });
-        console.log('potential matches', this.potentialMatches);
+        console.log('potential matches', this.potentialMatches.length);
       }
 
       if (res['interestMatches'] !== '') {
@@ -73,7 +76,7 @@ export class MatchComponent implements OnInit {
             status: null,
           };
         });
-        console.log('interestMatch', this.interestMatches);
+        console.log('interestMatch', this.interestMatches.length);
       }
 
       if (res['profileInterestMatches'] !== '') {
@@ -92,7 +95,10 @@ export class MatchComponent implements OnInit {
             };
           }
         );
-        console.log('profileinterest match', this.profileInterestMatches);
+        console.log(
+          'profileinterest match',
+          this.profileInterestMatches.length
+        );
       }
 
       if (res['profileMatches'] !== '') {
@@ -109,16 +115,17 @@ export class MatchComponent implements OnInit {
             status: status,
           };
         });
-        console.log('profilematch', this.profileMatches);
+        console.log('profilematch', this.profileMatches.length);
       }
       this.displayArray = this.potentialMatches.concat(
         this.profileInterestMatches
       );
-      console.log(this.displayArray);
+      // console.log(this.displayArray);
 
       this.data = this.displayArray[this.index];
-
+      this.updateFriendshipCount(this.displayArray.length);
       console.log(this.displayArray.length);
+      this.isLoading = false;
     });
 
     // const combinedArr = [
@@ -129,12 +136,16 @@ export class MatchComponent implements OnInit {
     // ];
   }
 
+  updateFriendshipCount(count: number) {
+    this.matchSvc.updateReqCount(count);
+  }
+
   next() {
     this.index++;
     this.data = this.displayArray[this.index];
 
     // to capture the current user
-    console.log('clicked in match', this.displayArray[this.index - 1]);
+    // console.log('clicked in match', this.displayArray[this.index - 1]);
   }
 
   navigateToPreference() {
@@ -145,13 +156,13 @@ export class MatchComponent implements OnInit {
     this.next();
     const currentUser = this.displayArray[this.index - 1];
     const requesteeId = currentUser.userId;
-    console.log(currentUser.status);
+    // console.log(currentUser.status);
 
     if (currentUser.status === 'pending') {
       this.chatSvc
         .createChatId(this.userId!, requesteeId)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           const chatId = res.chatId;
         })
         .catch((error) => {
@@ -162,9 +173,10 @@ export class MatchComponent implements OnInit {
       this.infoUploadSvc
         .sendFriendship(this.userId!, requesteeId, 'pending')
         .then((res) => {
-          console.log(res);
+          // console.log(res);
         });
     }
+    this.updateFriendshipCount(this.displayArray.length);
   }
 
   no() {
@@ -178,6 +190,7 @@ export class MatchComponent implements OnInit {
     } else {
       this.infoUploadSvc.sendFriendship(this.userId!, requesteeId, 'maybe');
     }
+    this.updateFriendshipCount(this.displayArray.length);
   }
 
   maybe() {

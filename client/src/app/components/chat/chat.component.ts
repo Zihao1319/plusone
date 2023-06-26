@@ -20,7 +20,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class ChatComponent implements OnInit {
   @ViewChild('chat') chatContainer!: ElementRef;
 
-  private BACKEND_API = 'http://localhost:8080/api';
+  private BACKEND_API = 'https://rebel-lip-production.up.railway.app/api';
+  // private BACKEND_API: string = 'http://localhost:8080/api';
   private IMAGE_URL = 'https://ozh2923.sgp1.digitaloceanspaces.com/';
 
   currUserId!: string | null;
@@ -70,14 +71,19 @@ export class ChatComponent implements OnInit {
   }
 
   scrollDown() {
-    const container = this.el.nativeElement.querySelector('#chat');
-    container.scrollTop = container.scrollHeight;
+    if (this.chatContainer) {
+      const container = this.el.nativeElement.querySelector('#chat');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // const container = this.el.nativeElement.querySelector('#chat');
+    // container.scrollTop = container.scrollHeight;
   }
 
   async connectToChat() {
     this.isLoading = true;
     this.chatId = await this.getChatId(this.currUserId!, this.otherUserId);
-    this.loadChat();
+    await this.loadChat();
     this.socket = new SockJS(this.BACKEND_API + '/chat', {
       headers: this.headers,
     });
@@ -159,8 +165,6 @@ export class ChatComponent implements OnInit {
   }
 
   async loadChat() {
-    this.isLoading = true;
-
     this.messages = this.chatSvc.getMessages(this.chatId);
     this.currUserImage = await this.getUserImage(this.currUserId!);
     this.otherUserImage = await this.getUserImage(this.otherUserId);
@@ -186,7 +190,8 @@ export class ChatComponent implements OnInit {
   sampledata = [
     { promptId: 1, prompt: 'Give me a pick up line' },
     { promptId: 2, prompt: 'Give me a joke' },
-    { promptId: 2, prompt: 'Say something random...' },
+    { promptId: 3, prompt: 'Say something random...' },
+    { promptId: 4, prompt: 'Break the ice please...' },
   ];
 
   openAiDialog() {
@@ -198,7 +203,7 @@ export class ChatComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (selected) => {
       if (selected) {
         this.getAiResponse(this.otherUserId, selected);
-      } 
+      }
     });
   }
 

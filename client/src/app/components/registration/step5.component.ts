@@ -109,12 +109,12 @@ export class Step5Component implements OnInit {
 
   add() {
     const promptId = this.promptForm.value.promptId;
-    console.log('now', promptId);
+    // console.log('now', promptId);
     const promptsOptionsArr = this.options.prompts;
     const pastPromptsArr = this.answerArray?.value.map((q: any) =>
       Number(q.promptId)
     );
-    console.log('past', pastPromptsArr);
+    // console.log('past', pastPromptsArr);
 
     if (pastPromptsArr.includes(promptId)) {
       console.log('huat');
@@ -141,7 +141,7 @@ export class Step5Component implements OnInit {
 
   next() {
     this.onNext.next(this.answerArray.value);
-    console.log(this.answerArray.value);
+    // console.log(this.answerArray.value);
   }
 
   previous() {
@@ -152,7 +152,7 @@ export class Step5Component implements OnInit {
     return this.answerArray.valid;
   }
   editForm() {
-    console.log(this.answerArray.value);
+    // console.log(this.answerArray.value);
     this.infoUploadSvc.performPromptDataOps(
       this.userId!,
       this.answerArray.value

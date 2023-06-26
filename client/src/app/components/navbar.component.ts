@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MatchServiceService } from '../services/match.service.service';
 import { UserManagementService } from '../services/user.management.service';
 
 @Component({
@@ -7,12 +9,28 @@ import { UserManagementService } from '../services/user.management.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent {
-  
+export class NavbarComponent implements OnInit, OnDestroy {
   @Input()
   isLogin!: boolean;
 
-  constructor(private userSvc: UserManagementService, private router: Router) {}
+  friendshipCount!: number;
+  friend$!: Subscription;
+
+  constructor(
+    private userSvc: UserManagementService,
+    private router: Router,
+    private matchSvc: MatchServiceService
+  ) {}
+
+  ngOnInit(): void {
+    this.friend$ = this.matchSvc.requestCount$.subscribe((count) => {
+      this.friendshipCount = count;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.friend$.unsubscribe();
+  }
 
   navigateToMatches() {
     this.router.navigate(['/matches']);

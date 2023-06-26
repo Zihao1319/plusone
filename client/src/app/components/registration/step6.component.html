@@ -1,3 +1,7 @@
+<div *ngIf="isLoading" class="full-page-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
 <div class="my-form">
   <form [formGroup]="imageForm">
     <div class="input-wrapper">
@@ -90,7 +94,6 @@
       mat-raised-button
       color="primary"
       (click)="submit()"
-      [disabled]="!isFormValid()"
     >
       Submit
     </button>

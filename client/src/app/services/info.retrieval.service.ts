@@ -8,7 +8,9 @@ import { UserManagementService } from './user.management.service';
   providedIn: 'root',
 })
 export class InfoRetrievalService {
-  private BACKEND_API: string = 'http://localhost:8080/api';
+  private BACKEND_API: string = 'https://rebel-lip-production.up.railway.app/api';
+  // private BACKEND_API: string = 'http://localhost:8080/api';
+
   private OPTIONS_API: string = this.BACKEND_API + '/options';
   private IMAGES_API: string = this.BACKEND_API + '/images';
   private COMPLETE_PROFILE_API = this.BACKEND_API + '/profile';

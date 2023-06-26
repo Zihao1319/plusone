@@ -7,7 +7,8 @@ import { UserManagementService } from './user.management.service';
   providedIn: 'root',
 })
 export class InfoDeleteService {
-  private BACKEND_API: string = 'http://localhost:8080/api';
+  private BACKEND_API: string = 'https://rebel-lip-production.up.railway.app/api';
+  // private BACKEND_API: string = 'http://localhost:8080/api';
 
   private IMAGES_API: string = this.BACKEND_API + '/image';
   private LANGUAGE_API: string = this.BACKEND_API + '/language';

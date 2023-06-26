@@ -14,6 +14,19 @@
   margin: 100px 0px;
 }
 
+.text-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  align-items: center;
+}
+
+h2 {
+  text-align: center;
+  color: purple;
+  margin: 10px;
+}
+
 mat-card-title,
 mat-card-content {
   display: flex;

@@ -63,7 +63,7 @@ export class Step4Component implements OnInit {
 
   async getProfile() {
     await this.infoRtrvSvc.getUserPreference(this.userId!).then((res) => {
-      console.log(res);
+      // console.log(res);
       this.data = {};
       this.data = res;
     });
@@ -101,7 +101,7 @@ export class Step4Component implements OnInit {
 
   next() {
     this.onNext.next(this.preferenceForm.value);
-    console.log(this.preferenceForm.value);
+    // console.log(this.preferenceForm.value);
   }
 
   previous() {

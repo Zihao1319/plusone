@@ -9,9 +9,10 @@ import { UserManagementService } from './user.management.service';
   providedIn: 'root',
 })
 export class InfoUploadService {
-  private BACKEND_API: string = 'http://localhost:8080/api/';
+  private BACKEND_API: string = 'https://rebel-lip-production.up.railway.app/api';
+  // private BACKEND_API: string = 'http://localhost:8080/api';
 
-  private IMAGE_POST_API = 'http://localhost:8080/api/image';
+  private IMAGE_POST_API = this.BACKEND_API + '/image';
 
   constructor(
     private httpClient: HttpClient,
@@ -23,7 +24,7 @@ export class InfoUploadService {
   headers = this.userSvc.setTokenRequest();
 
   uploadImage(imageFileElem: ElementRef, userId: String) {
-    console.log(userId);
+    // console.log(userId);
     const formData = new FormData();
     const imageFile = imageFileElem.nativeElement.files[0];
     formData.append('file', imageFile);
@@ -36,7 +37,7 @@ export class InfoUploadService {
   }
 
   uploadProfileData(userId: string, profileData: any) {
-    const PROFILE_POST_API = this.BACKEND_API + 'profile/' + userId;
+    const PROFILE_POST_API = this.BACKEND_API + '/profile/' + userId;
 
     const excludedKey = 'languageId';
     const updatedProfileData = { ...profileData };
@@ -71,7 +72,7 @@ export class InfoUploadService {
         )
     );
 
-    console.log(added);
+    // console.log(added);
 
     if (Object.keys(added).length !== 0) {
       this.uploadLanguageData(userId, added);
@@ -83,7 +84,7 @@ export class InfoUploadService {
           (obj2: { languageId: any }) => obj2.languageId === obj1.languageId
         )
     );
-    console.log(deleted);
+    // console.log(deleted);
 
     deleted.forEach((d: any) => {
       this.infoDelSvc.deleteLanguage(userId, d.languageId);
@@ -91,7 +92,7 @@ export class InfoUploadService {
   }
 
   uploadLanguageData(userId: string, languages: any) {
-    const LANGUAGE_POST_API = this.BACKEND_API + 'language/' + userId;
+    const LANGUAGE_POST_API = this.BACKEND_API + '/language/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(LANGUAGE_POST_API, languages, {
@@ -106,7 +107,7 @@ export class InfoUploadService {
       return lang;
     });
 
-    const LANGUAGE_POST_API = this.BACKEND_API + 'language/' + userId;
+    const LANGUAGE_POST_API = this.BACKEND_API + '/language/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(LANGUAGE_POST_API, newLang, {
@@ -145,7 +146,7 @@ export class InfoUploadService {
         )
     );
 
-    console.log('added', added);
+    // console.log('added', added);
 
     if (Object.keys(added).length !== 0) {
       this.uploadPersonalityInfo(userId, added);
@@ -158,7 +159,7 @@ export class InfoUploadService {
             obj2.personalityId === obj1.personalityId
         )
     );
-    console.log('deleted', deleted);
+    // console.log('deleted', deleted);
 
     deleted.forEach((d: any) => {
       this.infoDelSvc.deletePersonality(userId, d.personalityId);
@@ -166,7 +167,7 @@ export class InfoUploadService {
   }
 
   uploadPersonalityInfo(userId: string, personalityIds: any) {
-    const PERSONALITY_POST_API = this.BACKEND_API + 'personality/' + userId;
+    const PERSONALITY_POST_API = this.BACKEND_API + '/personality/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(PERSONALITY_POST_API, personalityIds, {
@@ -182,7 +183,7 @@ export class InfoUploadService {
       return personalityId;
     });
 
-    const PERSONALITY_POST_API = this.BACKEND_API + 'personality/' + userId;
+    const PERSONALITY_POST_API = this.BACKEND_API + '/personality/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(PERSONALITY_POST_API, personalities, {
@@ -219,7 +220,7 @@ export class InfoUploadService {
         )
     );
 
-    console.log('added', added);
+    // console.log('added', added);
 
     if (Object.keys(added).length !== 0) {
       this.uploadInterestInfo(userId, added);
@@ -232,7 +233,7 @@ export class InfoUploadService {
         )
     );
 
-    console.log('deleted', deleted);
+    // console.log('deleted', deleted);
 
     deleted.forEach((d: any) => {
       this.infoDelSvc.deleteInterest(userId, d.interestId);
@@ -240,7 +241,7 @@ export class InfoUploadService {
   }
 
   uploadInterestInfo(userId: string, interestIds: any) {
-    const INTERESTS_POST_API = this.BACKEND_API + 'add/interests/' + userId;
+    const INTERESTS_POST_API = this.BACKEND_API + '/add/interests/' + userId;
     return lastValueFrom(
       this.httpClient.post<any>(INTERESTS_POST_API, interestIds, {
         headers: this.headers,
@@ -255,7 +256,7 @@ export class InfoUploadService {
       return interestId;
     });
 
-    const INTERESTS_POST_API = this.BACKEND_API + 'add/interests/' + userId;
+    const INTERESTS_POST_API = this.BACKEND_API + '/add/interests/' + userId;
     return lastValueFrom(
       this.httpClient.post<any>(INTERESTS_POST_API, interests, {
         headers: this.headers,
@@ -286,7 +287,7 @@ export class InfoUploadService {
         )
     );
 
-    console.log('added', added);
+    // console.log('added', added);
     if (Object.keys(added).length !== 0) {
       this.uploadSubInterestInfo(userId, added);
     }
@@ -299,7 +300,7 @@ export class InfoUploadService {
         )
     );
 
-    console.log('deleted', deleted);
+    // console.log('deleted', deleted);
     deleted.forEach((d: any) => {
       this.infoDelSvc.deleteSubInterest(userId, d.subInterestId);
     });
@@ -307,7 +308,7 @@ export class InfoUploadService {
 
   uploadSubInterestInfo(userId: string, subInterests: any) {
     const SUB_INTERESTS_POST_API =
-      this.BACKEND_API + 'add/subinterests/' + userId;
+      this.BACKEND_API + '/add/subinterests/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(SUB_INTERESTS_POST_API, subInterests, {
@@ -323,7 +324,7 @@ export class InfoUploadService {
     });
 
     const SUB_INTERESTS_POST_API =
-      this.BACKEND_API + 'add/subinterests/' + userId;
+      this.BACKEND_API + '/add/subinterests/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(SUB_INTERESTS_POST_API, newSubInterests, {
@@ -333,9 +334,9 @@ export class InfoUploadService {
   }
 
   uploadPreferenceData(userId: string, preferenceData: any) {
-    console.log(preferenceData);
+    // console.log(preferenceData);
 
-    const PREFERENCE_POST_API = this.BACKEND_API + 'preference/' + userId;
+    const PREFERENCE_POST_API = this.BACKEND_API + '/preference/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(PREFERENCE_POST_API, preferenceData, {
@@ -353,19 +354,13 @@ export class InfoUploadService {
 
     this.infoDelSvc.deleteAllAnswers(userId);
 
-    // const res = await this.infoRtrvSvc.getUserAnswers(userId);
-    // const answersInDb = res.answers.map((a: any) => {
-    //   const prompt = { promptId: a.promptId, answer: a.answer };
-    //   return prompt;
-    // });
-
-    console.log(newAnswers);
+    // console.log(newAnswers);
 
     this.uploadPromptData(userId, newAnswers);
   }
 
   uploadPromptData(userId: string, promptData: any) {
-    const PROMPT_POST_API = this.BACKEND_API + 'prompt/' + userId;
+    const PROMPT_POST_API = this.BACKEND_API + '/prompt/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(PROMPT_POST_API, promptData, {
@@ -381,7 +376,7 @@ export class InfoUploadService {
       return data;
     });
 
-    const PROMPT_POST_API = this.BACKEND_API + 'prompt/' + userId;
+    const PROMPT_POST_API = this.BACKEND_API + '/prompt/' + userId;
 
     return lastValueFrom(
       this.httpClient.post<any>(PROMPT_POST_API, newAnswers, {
@@ -392,13 +387,13 @@ export class InfoUploadService {
 
   sendFriendship(requestorId: string, requesteeId: string, status: string) {
     const FRIEND_REQ: string =
-      this.BACKEND_API + 'requestfriend/' + requestorId;
+      this.BACKEND_API + '/requestfriend/' + requestorId;
 
     const params = new HttpParams()
       .set('id', requesteeId)
       .set('status', status);
 
-    console.log(params);
+    // console.log(params);
     return lastValueFrom(
       this.httpClient.post<any>(FRIEND_REQ, params, {
         headers: this.headers,
@@ -408,7 +403,7 @@ export class InfoUploadService {
 
   updateFrienship(requestorId: string, requesteeId: string, status: string) {
     const FRIEND_REQ: string =
-      this.BACKEND_API + 'updatefriendship/' + requesteeId;
+      this.BACKEND_API + '/updatefriendship/' + requesteeId;
 
     const params = new HttpParams()
       .set('id', requestorId)

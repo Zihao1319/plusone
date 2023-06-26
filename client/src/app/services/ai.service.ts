@@ -7,7 +7,8 @@ import { UserManagementService } from './user.management.service';
   providedIn: 'root',
 })
 export class AiService {
-  private AI_BACKEND_API: string = 'http://localhost:8080/api/ai';
+  private AI_BACKEND_API: string = 'https://rebel-lip-production.up.railway.app/api/ai';
+  // private AI_BACKEND_API: string = 'http://localhost:8080/api/ai';
 
   constructor(
     private httpClient: HttpClient,

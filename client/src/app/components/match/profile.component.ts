@@ -84,7 +84,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         this.generateProfile(this.userId!);
       }
     });
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit, OnChanges {
 
     if (changes['data']) {
       this.reset();
-      console.log('data changed in profile ts', this.data);
+      // console.log('data changed in profile ts', this.data);
 
       const userId = this.data.userId;
       this.interestScore = this.data.interestScore;
@@ -108,7 +108,7 @@ export class ProfileComponent implements OnInit, OnChanges {
   generateProfile(userId: string) {
     this.isLoading = true;
     this.infoRtrvSvc.getCompleteProfile(userId).then((res) => {
-      console.log(res);
+      // console.log(res);
       this.populateProfile(res);
       this.isLoading = false;
     });

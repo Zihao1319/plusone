@@ -33,7 +33,6 @@ export class ChatlistComponent implements OnInit {
 
   async fetchAllChatProfiles(userId: string) {
     const res = await this.chatSvc.getChatIds(this.userId!);
-    console.log(res);
 
     const promises = res.map(async (p: any) => {
       const chatId = p.chatId;
@@ -50,8 +49,6 @@ export class ChatlistComponent implements OnInit {
       const imageUrl = await this.getUserImage(otherUserId);
       const lastMessageInfo = await this.getLatestMessage(chatId);
 
-      console.log(profile);
-      console.log(lastMessageInfo);
 
       let lastMessage = '';
       let lastSenderId = '';
@@ -108,7 +105,6 @@ export class ChatlistComponent implements OnInit {
     const lastMessage = await lastValueFrom(messages);
 
     if (lastMessage) {
-      console.log(lastMessage);
       return lastMessage;
     } else {
       return null;
@@ -116,8 +112,6 @@ export class ChatlistComponent implements OnInit {
   }
 
   navigateToChat(userId: string) {
-    console.log('clicked');
-    console.log(userId);
     this.router.navigate([`/chat/${userId}`]);
   }
 

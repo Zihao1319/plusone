@@ -61,7 +61,7 @@ export class RegistrationComponent implements OnInit {
 
     this.infoRtrvSvc.getOptions().then((list) => {
       this.options = list;
-      console.log(this.options);
+      // console.log(this.options);
     });
   }
 
@@ -86,7 +86,7 @@ export class RegistrationComponent implements OnInit {
     switch (this.currentStep) {
       case 1:
         this.profileData = { ...this.profileData, ...data };
-        console.log(this.profileData);
+        // console.log(this.profileData);
         break;
 
       case 2:
@@ -94,22 +94,22 @@ export class RegistrationComponent implements OnInit {
           ...this.interestPersonalityData,
           ...data,
         };
-        console.log(this.interestPersonalityData);
+        // console.log(this.interestPersonalityData);
         break;
 
       case 3:
         this.subInterestData = { ...this.subInterestData, ...data };
-        console.log(this.subInterestData);
+        // console.log(this.subInterestData);
         break;
 
       case 4:
         this.preferenceData = { ...this.preferenceData, ...data };
-        console.log(this.preferenceData);
+        // console.log(this.preferenceData);
         break;
 
       case 5:
         this.promptData = { ...this.promptData, ...data };
-        console.log(this.promptData);
+        // console.log(this.promptData);
         break;
 
       case 6:
@@ -119,7 +119,7 @@ export class RegistrationComponent implements OnInit {
 
   submit() {
     console.log('uploading to backend in progres...');
-    console.log(this.promptData);
+    // console.log(this.promptData);
 
     const uploadOperations = [
       this.infoUploadSvc.uploadProfileData(this.userId!, this.profileData),
@@ -162,6 +162,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   editStep(event: any) {
-    console.log(event);
+    // console.log(event);
   }
 }

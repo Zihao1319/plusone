@@ -141,7 +141,7 @@ export class Step3Component implements OnInit {
 
   next() {
     this.onNext.next(this.subInterestForm.value);
-    console.log(this.subInterestForm.value);
+    // console.log(this.subInterestForm.value);
   }
 
   previous() {
@@ -153,7 +153,7 @@ export class Step3Component implements OnInit {
   }
 
   editForm() {
-    console.log(this.subInterestForm.value);
+    // console.log(this.subInterestForm.value);
     this.infoUploadSvc.performSubInterestOps(
       this.userId!,
       this.subInterestForm.value

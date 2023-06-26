@@ -30,6 +30,7 @@ export class Step6Component implements OnInit {
   isEditMode: Boolean = false;
   token!: string;
   userId!: string | null;
+  isLoading: boolean = false;
 
   imageForm!: FormGroup;
   selectedFile!: File | null;
@@ -55,10 +56,12 @@ export class Step6Component implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
+    
     this.token = this.userSvc.token;
     this.userId = this.userSvc.getUserId();
 
-    if (!this.userId){
+    if (!this.userId) {
       this.userSvc.clearInfo();
       this.router.navigate(['/login']);
     }
@@ -70,6 +73,8 @@ export class Step6Component implements OnInit {
 
     this.imageForm = this.createForm();
     this.getAllImages();
+
+    this.isLoading = false;
   }
 
   createForm() {
@@ -104,19 +109,23 @@ export class Step6Component implements OnInit {
         return { ...i, imageUrl };
       });
 
-      console.log(this.images);
+      // console.log(this.images);
     } catch (error: any) {
       console.log(error);
     }
   }
 
   async uploadFiles() {
-    await this.UploadSvc.uploadImage(this.fileElem, this.userId!).then((res) => {
-      console.log(this.images);
-      this.preview = '';
-      this.getAllImages();
-    });
+    this.isLoading = true;
+    await this.UploadSvc.uploadImage(this.fileElem, this.userId!).then(
+      (res) => {
+        // console.log(this.images);
+        this.preview = '';
+        this.getAllImages();
+      }
+    );
     this.clearForm();
+    this.isLoading = false;
   }
 
   clearForm() {

@@ -32,10 +32,10 @@ export class RegisterComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.registerForm.value);
+    // console.log(this.registerForm.value);
     this.userSvc.registerUser(this.registerForm.value)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.userSvc.setUserToken(res.token);
         this.userSvc.setUserId(res.userId);
         this.userSvc.isAuthenticated();

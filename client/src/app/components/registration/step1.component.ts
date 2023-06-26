@@ -59,7 +59,7 @@ export class Step1Component implements OnInit {
 
     this.activatedRoute.url.subscribe((segments) => {
       this.isEditMode = segments.some((segment) => segment.path === 'step1');
-      console.log(this.isEditMode);
+      // console.log(this.isEditMode);
     });
 
     this.profileForm = this.createProfileForm();
@@ -67,7 +67,7 @@ export class Step1Component implements OnInit {
     if (this.isEditMode) {
       await this.getProfile();
       this.profileForm = this.createProfileForm();
-      console.log(this.data);
+      // console.log(this.data);
     }
 
     this.options = await this.fetchOptions();
@@ -76,7 +76,7 @@ export class Step1Component implements OnInit {
       .get('birthYear')
       ?.valueChanges.pipe()
       .subscribe((birthYear) => {
-        console.log(birthYear);
+        // console.log(birthYear);
 
         if (birthYear) {
           const currentYear = new Date().getFullYear();
