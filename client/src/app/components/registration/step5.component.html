@@ -1,0 +1,81 @@
+<div class="my-form">
+  <form [formGroup]="promptForm">
+    <div class="input-wrapper">
+      <mat-label>Pick your prompt questions:</mat-label>
+      <mat-form-field>
+        <mat-label>Select your prompt here:</mat-label>
+        <mat-select formControlName="promptId">
+          <mat-option
+            *ngFor="let option of options?.prompts"
+            [value]="option.promptId"
+            >{{ option.promptQuestion }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <div class="button-container">
+        <button
+          class="button"
+          mat-raised-button
+          color="primary"
+          class="full-width"
+          (click)="add()"
+          [disabled]="!this.promptForm.value.promptId"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+
+    <div formArrayName="answers">
+      <div
+        *ngFor="let a of answerArray.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <mat-card class="mat-card">
+          <mat-card-header class="font">{{
+            a.get("promptQuestion")?.value
+          }}</mat-card-header>
+          <mat-form-field class="example-full-width">
+            <mat-label>Type here...</mat-label>
+            <input matInput formControlName="answer" />
+          </mat-form-field>
+          <button mat-raised-button color="warn" (click)="delete(i)">
+            Delete
+          </button>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+
+  <div class="button-container">
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="secondary"
+      (click)="previous()"
+    >
+      Previous
+    </button>
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="primary"
+      (click)="next()"
+      [disabled]="!isFormValid()"
+    >
+      Next
+    </button>
+    <button
+      *ngIf="isEditMode"
+      mat-raised-button
+      color="primary"
+      class="button"
+      (click)="editForm()"
+      [disabled]="!isFormValid()"
+    >
+      Edit
+    </button>
+  </div>
+</div>

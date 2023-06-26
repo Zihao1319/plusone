@@ -1,0 +1,78 @@
+<div>
+  <mat-card>
+    <mat-card-title>Sign Up</mat-card-title>
+    <mat-card-content>
+      <form class="my-form" [formGroup]="registerForm" (ngSubmit)="submit()">
+        <p>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              placeholder="Username"
+              formControlName="name"
+            />
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input
+              type="email"
+              matInput
+              placeholder="Email"
+              formControlName="email"
+            />
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input
+              type="password"
+              matInput
+              placeholder="Password"
+              formControlName="password"
+            />
+          </mat-form-field>
+        </p>
+        <div class="input-wrapper">
+          <p
+            *ngIf="
+              error &&
+              !registerForm.get('name')?.dirty &&
+              !registerForm.get('email')?.dirty &&
+              !registerForm.get('password')?.dirty
+            "
+            class="error"
+          >
+            {{ error | titlecase }}
+          </p>
+        </div>
+
+        <div class="button-container">
+          <div class="button">
+            <button
+              type="submit"
+              mat-raised-button
+              (click)="submit()"
+              color="primary"
+              [disabled]="!isFormValid()"
+            >
+              Register
+            </button>
+          </div>
+          <div class="button">
+            <button
+              type="submit"
+              mat-raised-button
+              (click)="login()"
+              color="secondary"
+            >
+              Login
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

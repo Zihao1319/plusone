@@ -1,0 +1,98 @@
+<div class="my-form">
+  <form [formGroup]="imageForm">
+    <div class="input-wrapper">
+      <mat-form-field>
+        <div>
+          <mat-toolbar>
+            <input
+              matInput
+              [value]="selectedFileName ? selectedFileName : 'Select Images'"
+              [readOnly]="true"
+            />
+
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="!selectedFile"
+              (click)="uploadFiles()"
+            >
+              Upload
+            </button>
+          </mat-toolbar>
+
+          <input
+            type="file"
+            id="fileInput"
+            name="fileInput"
+            accept="image/*"
+            formControlName="image"
+            (change)="selectFile($event)"
+            #file
+          />
+        </div>
+      </mat-form-field>
+    </div>
+    <div *ngIf="preview">
+      <h4>Preview:</h4>
+      <div class="image">
+        <img [src]="preview" class="preview" />
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-card class="list-card">
+      <mat-card-content class="image-container" *ngIf="images.length > 0">
+        <mat-card-header>
+          <mat-card-title>List of Images</mat-card-title>
+        </mat-card-header>
+        <div class="grid-container">
+          <div *ngFor="let i of images" class="grid-item">
+            <img
+              class="image"
+              id="{{ i.imageId }}"
+              attr.url="{{ i.url }}"
+              src="{{ i.imageUrl }}"
+              alt="some image"
+              height="150px"
+              #image
+            />
+
+            <div class="delete-button-container">
+              <button
+                mat-mini-fab
+                color="warn"
+                class="delete-button"
+                (click)="delete($event, image)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div></div>
+  </form>
+
+  <div class="button-container">
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="secondary"
+      class="button"
+      (click)="previous()"
+    >
+      Previous
+    </button>
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="primary"
+      (click)="submit()"
+      [disabled]="!isFormValid()"
+    >
+      Submit
+    </button>
+  </div>
+</div>

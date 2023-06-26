@@ -1,0 +1,94 @@
+<link
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet"
+/>
+
+<div *ngIf="isLoading" class="full-page-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="component" *ngIf="!isLoading">
+  <div>
+    <div class="card-header">
+      <div class="d-flex align-items-center">
+        <img src="{{ otherUserImage }}" class="rounded-circle user_img" />
+      </div>
+      <div class="user_info" (click)="navigateToProfile()" [id]="otherUserId">
+        <span>{{ otherUserProfile?.name | titlecase }} </span>
+        <p>View profile</p>
+      </div>
+    </div>
+  </div>
+  <div #chat id="chat" class="msg_card_body">
+    <!--messages - start> -->
+    <div *ngFor="let msg of messages | async">
+      <div
+        class="d-flex container mb-4"
+        *ngIf="msg.senderId === otherUserId; else currUserMsg"
+      >
+        <div class="msg_cotainer">
+          {{ msg.content }}
+        </div>
+
+        <div class="container">
+          <span class="msg_time_otherUser">{{
+            formatTimeStamp(msg.timeStamp)
+          }}</span>
+        </div>
+        <div class="img_otherUser">
+          <img src="{{ otherUserImage }}" class="rounded-circle user_img_msg" />
+        </div>
+      </div>
+
+      <ng-template #currUserMsg>
+        <div class="d-flex container mb-4">
+          <div class="msg_cotainer_send">
+            {{ msg.content }}
+          </div>
+          <div class="container">
+            <span class="msg_time_currUser">{{
+              formatTimeStamp(msg.timeStamp)
+            }}</span>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="input-group">
+      <span
+        ><img
+          src="/assets/images/ChatGPT_logo.svg.png"
+          class="rounded-circle btn_img"
+          (click)="openAiDialog()"
+      /></span>
+      <textarea
+        [formControl]="newMessage"
+        name=""
+        class="form-control type_msg"
+        placeholder="Type your message..."
+      ></textarea>
+      <div>
+        <div *ngIf="!isGPTLoading; else loading" class="input-group-append">
+          <span (click)="sendMessage()" class="input-group-text send_btn"
+            ><i class="material-icons" style="font-size: 30px">send</i></span
+          >
+        </div>
+        <!-- <mat-spinner
+          [diameter]="40"
+          color="accent"
+          class="custom-spinner"
+        ></mat-spinner> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <mat-spinner
+    [diameter]="40"
+    color="accent"
+    class="custom-spinner"
+  ></mat-spinner>
+</ng-template>

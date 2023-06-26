@@ -1,0 +1,28 @@
+.stepper-container {
+  width: 100%;
+  overflow: auto;
+  padding-bottom: 0;
+}
+
+::ng-deep .mat-horizontal-stepper-label {
+  font-size: 10px; /* Adjust the font size as needed */
+}
+
+.mat-step-header .mat-step-label .mat-step-text-label {
+  font-size: 10px;
+}
+
+::ng-deep .label {
+  color: blueviolet;
+  font-size: 10px; /* Adjust the font size as needed */
+}
+
+h3 {
+  color: blueviolet;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+
+.mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}

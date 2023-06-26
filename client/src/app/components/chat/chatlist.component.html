@@ -1,0 +1,54 @@
+<div *ngIf="isLoading" class="full-page-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="chatProfiles.length > 0; else noChats">
+  <div class="user_info">
+    <h3 class="centered-content">List of active chats:</h3>
+  </div>
+  <div *ngFor="let p of chatProfiles">
+    <div class="card-header">
+      <div class="d-flex align-items-center">
+        <img [src]="p.imageUrl" class="rounded-circle user_img" />
+      </div>
+      <div class="user_info">
+        <span>{{ p?.name | titlecase }} </span>
+        <p *ngIf="p?.lastSenderId !== ''">
+          {{ p.currentUserId === p.lastSenderId ? p.name : "You" }}:
+          {{ p?.lastMessage }}
+        </p>
+      </div>
+      <div class="chat-button">
+        <button
+          mat-fab
+          matTooltip="Warn"
+          color="primary"
+          class="mat-mini-fab"
+          [value]="p.currentUserId"
+          (click)="navigateToChat(p.currentUserId)"
+        >
+          <mat-icon>chat</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>
+
+<ng-template #noChats>
+  <section class="mat-typography">
+    <div class="noprofile-container">
+      <div class="centered-content">
+        <h1>Uh-oh, there's no chats here yet :(</h1>
+      </div>
+      <div class="centered-content">
+        <p>Find more potential matches here!</p>
+      </div>
+      <div class="centered-content">
+        <button mat-raised-button color="primary" (click)="navigateToMatches()">
+          Go to matches
+        </button>
+      </div>
+    </div>
+  </section>
+</ng-template>

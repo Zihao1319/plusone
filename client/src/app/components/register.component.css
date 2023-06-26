@@ -1,0 +1,43 @@
+.my-form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  min-width: 150px;
+  max-width: 500px;
+  padding: 15px;
+  /* margin: 10px auto; */
+}
+
+:host {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0px;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-container {
+  padding-top: 10px;
+  display: flex;
+}
+
+.button {
+  margin: 10px;
+  width: 100%;
+  justify-content: space-evenly;
+}

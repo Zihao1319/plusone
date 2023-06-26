@@ -1,0 +1,61 @@
+<div>
+  <div *ngIf="isLoading" class="full-page-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <form class="my-form" [formGroup]="loginForm" (ngSubmit)="submit()">
+        <p>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              placeholder="Username"
+              formControlName="name"
+            />
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input
+              type="password"
+              matInput
+              placeholder="Password"
+              formControlName="password"
+            />
+          </mat-form-field>
+        </p>
+        <div class="input-wrapper">
+          <p
+            *ngIf="
+              error &&
+              !loginForm.get('name')?.dirty &&
+              !loginForm.get('password')?.dirty
+            "
+            class="error"
+          >
+            {{ error | titlecase }}
+          </p>
+        </div>
+        <div class="button-container">
+          <div class="button">
+            <button
+              type="submit"
+              mat-raised-button
+              color="primary"
+              [disabled]="!isFormValid()"
+            >
+              Login
+            </button>
+            <button mat-raised-button (click)="register()" color="secondary">
+              Register
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

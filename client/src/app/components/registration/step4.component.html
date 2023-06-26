@@ -1,0 +1,127 @@
+<div class="my-form">
+  <form [formGroup]="preferenceForm">
+    <mat-label></mat-label>
+    <div class="input-wrapper">
+      <mat-label>Gender:</mat-label>
+      <mat-radio-group formControlName="genderPref">
+        <mat-grid-list cols="3">
+          <mat-radio-button value="male">Male</mat-radio-button>
+          <mat-radio-button value="female">Female</mat-radio-button>
+          <mat-radio-button value="everyone">Everyone</mat-radio-button>
+        </mat-grid-list>
+      </mat-radio-group>
+    </div>
+
+    <div class="input-wrapper">
+      <mat-label>Preferred race:</mat-label>
+      <mat-form-field>
+        <mat-label>Race</mat-label>
+        <mat-select formControlName="racePrefId">
+          <mat-option
+            *ngFor="let option of options?.races"
+            [value]="option.raceId"
+            >{{ option.raceName | titlecase }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Partner's dietary preference:</label>
+      <mat-form-field class="full-width">
+        <mat-label>Diet</mat-label>
+        <mat-select formControlName="dietPrefId">
+          <mat-option
+            *ngFor="let option of options?.diets"
+            [value]="option.dietId"
+            >{{ option.dietName | titlecase }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <mat-label>Preferred age range:</mat-label>
+      <mat-slider min="10" max="100" step="1" discrete>
+        <input formControlName="minAge" matSliderStartThumb />
+        <input formControlName="maxAge" matSliderEndThumb />
+      </mat-slider>
+      <div class="slider-values">
+        <span
+          >Min age:
+          {{
+            preferenceForm.value.minAge ? preferenceForm.value.minAge : 0
+          }}yo</span
+        >
+        <span
+          >Max age:
+          {{
+            preferenceForm.value.maxAge ? preferenceForm.value.maxAge : 100
+          }}yo</span
+        >
+      </div>
+    </div>
+
+    <div class="input-wrapper">
+      <mat-label>Preferred height range (in cm):</mat-label>
+      <mat-slider min="130" max="210" step="1" discrete>
+        <input value="150" formControlName="minHeight" matSliderStartThumb />
+        <input
+          [value]="preferenceForm.value.maxHeight"
+          formControlName="maxHeight"
+          matSliderEndThumb
+        />
+      </mat-slider>
+
+      <div class="slider-values">
+        <span
+          >Min Height:
+          {{
+            preferenceForm.value.minHeight
+              ? preferenceForm.value.minHeight
+              : 100
+          }}cm</span
+        >
+        <span
+          >Max Height:
+          {{
+            preferenceForm.value.maxHeight
+              ? preferenceForm.value.maxHeight
+              : 200
+          }}cm</span
+        >
+      </div>
+    </div>
+  </form>
+  <div class="button-container">
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="secondary"
+      (click)="previous()"
+    >
+      Previous
+    </button>
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="primary"
+      (click)="next()"
+      [disabled]="!isFormValid()"
+    >
+      Next
+    </button>
+    <button
+      *ngIf="isEditMode"
+      mat-raised-button
+      color="primary"
+      class="button"
+      (click)="editForm()"
+      [disabled]="!isFormValid()"
+    >
+      Edit
+    </button>
+  </div>
+</div>

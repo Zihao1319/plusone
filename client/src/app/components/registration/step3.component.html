@@ -1,0 +1,80 @@
+<div class="my-form" *ngIf="!isInterestEmpty; else setYourInterest">
+  <form [formGroup]="subInterestForm">
+    <div class="chip-style">
+      <mat-label>Which of these interests you?</mat-label>
+      <mat-chip-listbox multiple="true" formControlName="subInterestId">
+        <mat-chip-option
+          [ngStyle]="{
+            backgroundColor: getColorByInterestId(option.interestId)
+          }"
+          *ngFor="let option of subOptions"
+          [value]="option.subInterestId"
+          [selected]="this.data?.subInterestId?.includes(option.subInterestId)"
+          selected="warn"
+          >{{ option.subInterestName | titlecase }}
+        </mat-chip-option>
+        <mat-error
+          class="input-wrapper"
+          *ngIf="
+            subInterestForm.get('subInterestId')?.errors &&
+            subInterestForm.get('subInterestId')?.dirty
+          "
+          >{{ getErrorMessages("subInterestId") }}</mat-error
+        >
+      </mat-chip-listbox>
+    </div>
+  </form>
+
+  <div class="button-container">
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="secondary"
+      (click)="previous()"
+    >
+      Previous
+    </button>
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="primary"
+      (click)="next()"
+      [disabled]="!isFormValid()"
+    >
+      Next
+    </button>
+    <button
+      *ngIf="isEditMode"
+      mat-raised-button
+      color="primary"
+      class="button"
+      (click)="editForm()"
+      [disabled]="!isFormValid()"
+    >
+      Edit
+    </button>
+  </div>
+
+  <!-- <button (click)="previousStep()">Previous</button>
+      <button (click)="nextStep()">Next</button> -->
+</div>
+
+<ng-template #setYourInterest>
+  <section class="mat-typography">
+    <div class="noprofile-container">
+      <div class="centered-content">
+        <h1>You have not set your main interests yet :(</h1>
+      </div>
+      <div class="centered-content">
+        <p>Set up first and come back here later</p>
+      </div>
+      <div class="centered-content">
+        <button mat-raised-button color="primary" (click)="navigateToStep2()">
+          Set my interests
+        </button>
+      </div>
+    </div>
+  </section>
+</ng-template>

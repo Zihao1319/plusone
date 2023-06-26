@@ -1,0 +1,79 @@
+<div class="my-form">
+  <form [formGroup]="interestPersonalityForm">
+    <div class="chip-style">
+      <mat-label
+        >What are the top 5 traits others would describe you?</mat-label
+      >
+      <mat-chip-listbox multiple="true" formControlName="personalityId">
+        <mat-chip-option
+          *ngFor="let option of options?.personalities"
+          [value]="option.personalityId"
+          [selected]="this.data?.personalityId?.includes(option.personalityId)"
+          >{{ option.personalityType | titlecase }}
+        </mat-chip-option>
+        <mat-error
+          *ngIf="
+            interestPersonalityForm.get('personalityId')?.errors &&
+            interestPersonalityForm.get('personalityId')?.dirty
+          "
+          >{{ getErrorMessages("personalityId") }}</mat-error
+        >
+      </mat-chip-listbox>
+    </div>
+
+    <div class="chip-style">
+      <mat-label>Tell us about your top 5 interests:</mat-label>
+      <mat-chip-listbox multiple="true" formControlName="interestId">
+        <mat-chip-option
+          *ngFor="let option of options?.interests"
+          [value]="option.interestId"
+          [selected]="this.data?.interestId?.includes(option.interestId)"
+          >{{ option.interestName | titlecase }}
+        </mat-chip-option>
+        <mat-error
+          class="input-wrapper"
+          *ngIf="
+            interestPersonalityForm.get('interestId')?.errors &&
+            interestPersonalityForm.get('interestId')?.dirty
+          "
+          >{{ getErrorMessages("interestId") }}</mat-error
+        >
+      </mat-chip-listbox>
+    </div>
+  </form>
+
+  <div class="button-container">
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="secondary"
+      (click)="previous()"
+    >
+      Previous
+    </button>
+    <button
+      *ngIf="!isEditMode"
+      class="button"
+      mat-raised-button
+      color="primary"
+      (click)="next()"
+      [disabled]="!isFormValid()"
+    >
+      Next
+    </button>
+    <button
+      *ngIf="isEditMode"
+      mat-raised-button
+      color="primary"
+      class="button"
+      (click)="editForm()"
+      [disabled]="!isFormValid()"
+    >
+      Edit
+    </button>
+  </div>
+
+  <!-- <button (click)="previousStep()">Previous</button>
+    <button (click)="nextStep()">Next</button> -->
+</div>

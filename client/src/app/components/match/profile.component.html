@@ -1,0 +1,208 @@
+<div *ngIf="isLoading" class="full-page-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!isLoading">
+  <div>
+    <div *ngIf="images.length > 0; else noImage">
+      <swiper
+        [slidesPerView]="1"
+        [spaceBetween]="10"
+        [navigation]="true"
+        [pagination]="{ clickable: true }"
+      >
+        <ng-template swiperSlide *ngFor="let i of images">
+          <img src="{{ i.imageUrl }}" alt="some image" />
+        </ng-template>
+      </swiper>
+    </div>
+    <div>
+      <div
+        *ngIf="!isProfileMode && data.status === 'pending'"
+        class="like-container"
+      >
+        <div>{{ profile.gender === "male" ? "He" : "She" }} likes you</div>
+      </div>
+      <mat-card>
+        <mat-card-content>
+          <div class="header-container">
+            <mat-card-header>
+              <mat-card-title>
+                {{ profile.name | titlecase }},
+                {{ profile.age }}</mat-card-title
+              >
+              <mat-card-subtitle
+                >{{ profile.location | titlecase }},
+                {{ profile.job | titlecase }}</mat-card-subtitle
+              >
+            </mat-card-header>
+          </div>
+
+          <div class="basic-container"></div>
+          <div>
+            <mat-list>
+              <mat-list-item>
+                <span matListItemTitle>Personalities</span>
+              </mat-list-item>
+              <mat-chip-listbox>
+                <mat-chip *ngFor="let p of personalities">{{
+                  p.personalityType | titlecase
+                }}</mat-chip>
+              </mat-chip-listbox>
+
+              <mat-list-item>
+                <span matListItemTitle>Interest areas</span>
+                <span *ngIf="!isProfileMode" matListItemLine class="score-style"
+                  >Matching score: {{ interestScore | number : "1.0-0" }}%</span
+                >
+              </mat-list-item>
+              <mat-chip-listbox>
+                <mat-chip *ngFor="let i of interests">{{
+                  i.interestName | titlecase
+                }}</mat-chip>
+              </mat-chip-listbox>
+
+              <mat-list-item>
+                <span matListItemTitle>Specific Interests:</span>
+                <span *ngIf="!isProfileMode" matListItemLine class="score-style"
+                  >Matching score:
+                  {{ subInterestScore | number : "1.0-0" }}%</span
+                >
+              </mat-list-item>
+
+              <mat-chip-listbox>
+                <mat-chip *ngFor="let s of subInterests">{{
+                  s.subInterestName | titlecase
+                }}</mat-chip>
+              </mat-chip-listbox>
+
+              <div class="prompt-container">
+                <mat-divider></mat-divider>
+                <div *ngFor="let a of answers" class="md-list-item-text">
+                  <h4>{{ a.promptQuestion }}</h4>
+                  <p>{{ a.answer }}</p>
+                </div>
+                <mat-divider></mat-divider>
+              </div>
+
+              <mat-list-item>
+                <span matListItemTitle>Height</span>
+                <span matListItemLine>{{ profile.height }}kg</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Weight</span>
+                <span matListItemLine>{{ profile.weight }}kg</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Highest Education</span>
+                <span matListItemLine>{{
+                  profile.educationName | titlecase
+                }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Horoscope</span>
+                <span matListItemLine>{{ profile.horoscopeName }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Diet preference</span>
+                <span matListItemLine>{{ profile.dietName | titlecase }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Religion</span>
+                <span matListItemLine>{{ profile.religion | titlecase }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Marital status</span>
+                <span matListItemLine>{{
+                  profile.maritalStatus | titlecase
+                }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Relationship goal</span>
+                <span matListItemLine>{{
+                  profile.relationshipGoal | titlecase
+                }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Smoking</span>
+                <span matListItemLine>{{ profile.smoking | titlecase }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Drinking</span>
+                <span matListItemLine>{{ profile.drinking | titlecase }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Exercise</span>
+                <span matListItemLine>{{ profile.exercise | titlecase }}</span>
+              </mat-list-item>
+
+              <mat-list-item>
+                <span matListItemTitle>Languages</span>
+              </mat-list-item>
+              <mat-chip-listbox>
+                <mat-chip *ngFor="let l of languages">{{
+                  l.languageName | titlecase
+                }}</mat-chip>
+              </mat-chip-listbox>
+            </mat-list>
+          </div>
+
+          <!-- <label for="name">{{ profile.name }}</label> -->
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #noImage>
+  <swiper
+    *ngIf="profile.gender == 'male'"
+    [slidesPerView]="1"
+    [spaceBetween]="10"
+    [navigation]="true"
+    [pagination]="{ clickable: true }"
+  >
+    <ng-template swiperSlide>
+      <img src="assets/images/male.jpeg" alt="male" />
+    </ng-template>
+  </swiper>
+  <swiper
+    *ngIf="profile.gender == 'female'"
+    [slidesPerView]="1"
+    [spaceBetween]="10"
+    [navigation]="true"
+    [pagination]="{ clickable: true }"
+  >
+    <ng-template swiperSlide>
+      <img src="assets/images/female.jpeg" alt="female" />
+    </ng-template>
+  </swiper>
+</ng-template>
+
+<ng-template #noProfilesFound>
+  <section class="mat-typography">
+    <div class="noprofile-container">
+      <div class="centered-content">
+        <h1>Uh-oh, there's no profile here :(</h1>
+      </div>
+      <div class="centered-content">
+        <p>Find more potential matches here!</p>
+      </div>
+      <div class="centered-content">
+        <button mat-raised-button color="primary" (click)="navigateToMatches()">
+          See my matches
+        </button>
+      </div>
+    </div>
+  </section>
+</ng-template>

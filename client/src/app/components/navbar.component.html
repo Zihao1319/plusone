@@ -1,0 +1,67 @@
+<mat-toolbar color="primary">
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+      *ngIf="isLogin"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  
+    <div>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [matMenuTriggerFor]="nestedMenu" *ngIf="isLogin">
+          <mat-icon>account_circle</mat-icon>
+          <span>Edit Profile</span>
+        </button>
+  
+        <button mat-menu-item (click)="navigateToStep4()" *ngIf="isLogin">
+          <mat-icon>favorite</mat-icon>
+          <span>Edit preference</span>
+        </button>
+  
+        <button mat-menu-item (click)="navigateToLogout()" *ngIf="isLogin">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+  
+      <mat-menu #nestedMenu="matMenu">
+        <button mat-menu-item (click)="navigateToStep1()">Profile</button>
+        <button mat-menu-item (click)="navigateToStep2()">Personalities</button>
+        <button mat-menu-item (click)="navigateToStep5()">Prompts</button>
+        <button mat-menu-item (click)="navigateToStep2()">Interests</button>
+        <button mat-menu-item (click)="navigateToStep3()">SubInterests</button>
+        <button mat-menu-item (click)="navigateToStep6()">Images</button>
+      </mat-menu>
+    </div>
+  
+    <span>Plus One</span>
+    <span class="example-spacer"></span>
+    <div *ngIf="isLogin">
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        aria-label="Example icon-button with heart icon"
+        (click)="navigateToProfile()"
+      >
+        <mat-icon>home</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        aria-label="Example icon-button with heart icon"
+        (click)="navigateToMatches()"
+      >
+        <mat-icon>group</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with share icon"
+        (click)="navigateToChats()"
+      >
+        <mat-icon>chat</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>

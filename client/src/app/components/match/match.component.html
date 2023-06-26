@@ -1,0 +1,56 @@
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+  rel="stylesheet"
+/>
+
+<ng-container *ngIf="isProfileMode">
+  <router-outlet></router-outlet>
+</ng-container>
+
+<div class="container" *ngIf="data !== undefined; else noProfiles">
+  <ng-container >
+    <app-profile [data]="data"></app-profile>
+    <div class="button-container">
+      <button class="button" mat-raised-button color="primary" (click)="yes()">
+        Yes<mat-icon>favorite</mat-icon>
+      </button>
+      <!-- <button
+        class="button"
+        s
+        mat-raised-button
+        color="secondary"
+        (click)="maybe()"
+      >
+        Maybe
+      </button> -->
+      <button mat-raised-button color="warn" class="button" (click)="no()">
+        No<mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #noProfiles>
+  <section class="mat-typography">
+    <div class="noprofile-container">
+      <div class="centered-content">
+        <h1>Uh-oh, no matches found yet :(</h1>
+      </div>
+      <div class="centered-content">
+        <p>
+          Find more potential matches by adjusting your profile and interests!
+        </p>
+      </div>
+      <div class="centered-content">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="navigateToPreference()"
+        >
+          Edit your preference
+        </button>
+      </div>
+    </div>
+  </section>
+</ng-template>

@@ -1,0 +1,254 @@
+<div class="my-form">
+  <h2 text-align="center"></h2>
+  <h3>Basic profile:</h3>
+  <form [formGroup]="profileForm">
+    <div class="input-wrapper">
+      <label>Year of birth:</label>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>YYYY format</mat-label>
+        <input
+          matInput
+          placeholder="Year of birth"
+          formControlName="birthYear"
+          value="{{ data?.birthYear }}"
+        />
+        <mat-error *ngIf="profileForm.get('birthYear')?.errors">{{
+          getErrorMessages()
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Age:</label>
+      <mat-form-field class="full-width">
+        <mat-label>Age</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Your age"
+          formControlName="age"
+          [readonly]="true"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Gender:</label>
+      <mat-radio-group formControlName="gender">
+        <mat-grid-list cols="3">
+          <mat-radio-button value="male">Male</mat-radio-button>
+          <mat-radio-button value="female">Female</mat-radio-button>
+        </mat-grid-list>
+      </mat-radio-group>
+    </div>
+
+    <div class="input-wrapper">
+      <mat-label>Race:</mat-label>
+      <mat-form-field class="full-width">
+        <mat-label>Race</mat-label>
+        <mat-select formControlName="raceId">
+          <mat-option
+            *ngFor="let option of options?.races"
+            [value]="option.raceId"
+            >{{ option.raceName | titlecase }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Horoscope:</label>
+      <mat-form-field class="full-width">
+        <mat-label>Horoscope</mat-label>
+        <mat-select formControlName="horoscopeId">
+          <mat-option
+            *ngFor="let option of options?.horoscopes"
+            [value]="option.horoscopeId"
+            >{{ option.horoscopeName | titlecase }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Height:</label>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>cm</mat-label>
+        <input matInput formControlName="height" />
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Weight:</label>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>kg</mat-label>
+        <input matInput formControlName="weight" />
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Current location:</label>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>location</mat-label>
+        <input matInput formControlName="location" />
+        <!-- <mat-error *ngIf="profileForm.get('birthYear')?.errors">{{
+                getErrorMessages()
+              }}</mat-error> -->
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Job:</label>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>job</mat-label>
+        <input matInput formControlName="job" />
+        <!-- <mat-error *ngIf="profileForm.get('birthYear')?.errors">{{
+                getErrorMessages()
+              }}</mat-error> -->
+      </mat-form-field>
+    </div>
+
+    <div class="chip-style">
+      <mat-label>Languages:</mat-label>
+      <mat-chip-listbox multiple="true" formControlName="languageId">
+        <mat-chip-option
+          *ngFor="let option of options?.languages"
+          [value]="option.languageId"
+          [selected]="this.data?.languages?.includes(option.languageId)"
+          >{{ option.languageName | titlecase }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Highest education:</label>
+      <mat-form-field class="full-width">
+        <mat-label>Education</mat-label>
+        <mat-select formControlName="educationId">
+          <mat-option
+            *ngFor="let option of options?.education"
+            [value]="option.educationId"
+            >{{ option.educationName | titlecase }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Religion:</label>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>religion</mat-label>
+        <mat-select formControlName="religion">
+          <mat-option value="buddhist">Buddhist</mat-option>
+          <mat-option value="catholic">Catholic</mat-option>
+          <mat-option value="christian">Christian</mat-option>
+          <mat-option value="hinduism">Hinduism</mat-option>
+          <mat-option value="muslim">Muslim</mat-option>
+          <mat-option value="free thinker">Free thinker</mat-option>
+          <mat-option value="others">Others</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Current marital status:</label>
+      <mat-form-field class="full-width">
+        <mat-label>Your current status</mat-label>
+        <mat-select formControlName="maritalStatus">
+          <mat-option value="never married">Never married</mat-option>
+          <mat-option value="separated">Separated</mat-option>
+          <mat-option value="divorced">Divorced</mat-option>
+          <mat-option value="widowed">Widowed</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Relationship goal:</label>
+      <mat-form-field class="full-width">
+        <mat-label>What's your goal?</mat-label>
+        <mat-select formControlName="relationshipGoal">
+          <mat-option value="marriage">Marriage</mat-option>
+          <mat-option value="serious relationship"
+            >Serious relationship</mat-option
+          >
+          <mat-option value="casual">Casual</mat-option>
+          <mat-option value="not sure">Not sure</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Dietary preference:</label>
+      <mat-form-field class="full-width">
+        <mat-label>Diet</mat-label>
+        <mat-select formControlName="dietId">
+          <mat-option
+            *ngFor="let option of options?.diets"
+            [value]="option.dietId"
+            >{{ option.dietName | titlecase }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Smoking:</label>
+      <mat-radio-group formControlName="smoking">
+        <mat-grid-list cols="3">
+          <mat-radio-button value="never">Never</mat-radio-button>
+          <mat-radio-button value="sometimes">Sometimes</mat-radio-button>
+          <mat-radio-button value="often">Often</mat-radio-button>
+        </mat-grid-list>
+      </mat-radio-group>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Drinking:</label>
+      <mat-radio-group formControlName="drinking">
+        <mat-grid-list cols="3">
+          <mat-radio-button value="never">Never</mat-radio-button>
+          <mat-radio-button value="often">Often</mat-radio-button>
+          <mat-radio-button value="socially">Socially</mat-radio-button>
+          <mat-radio-button value="sober">Sober</mat-radio-button>
+        </mat-grid-list>
+      </mat-radio-group>
+    </div>
+
+    <div class="input-wrapper">
+      <label>Exercise:</label>
+      <mat-radio-group formControlName="exercise">
+        <mat-grid-list cols="3">
+          <mat-radio-button value="never">Never</mat-radio-button>
+          <mat-radio-button value="sometimes">Sometimes</mat-radio-button>
+          <mat-radio-button value="often">Often</mat-radio-button>
+          <mat-radio-button value="daily">Daily</mat-radio-button>
+        </mat-grid-list>
+      </mat-radio-group>
+    </div>
+  </form>
+
+  <div class="button-container">
+    <button
+      *ngIf="!isEditMode"
+      mat-raised-button
+      color="primary"
+      (click)="next()"
+      class="button"
+    >
+      Next
+    </button>
+    <button
+      *ngIf="isEditMode"
+      mat-raised-button
+      color="primary"
+      class="button"
+      (click)="editForm()"
+      [disabled]="!isFormValid()"
+    >
+      Edit
+    </button>
+  </div>
+</div>
+
+<!-- [disabled]="!isFormValid()" -->
