@@ -1,6 +1,7 @@
 /Users/ooizihao/Documents/tfip/NUSISS/miniproject/server/src/main/java/com/plueone/server/repo/OptionsRetrieval.java
 /Users/ooizihao/Documents/tfip/NUSISS/miniproject/server/src/main/java/com/plueone/server/repo/UserInfoInsertion.java
 /Users/ooizihao/Documents/tfip/NUSISS/miniproject/server/src/main/java/com/plueone/server/models/JwtAuth/LoginResponseDTO.java
+/Users/ooizihao/Documents/tfip/NUSISS/miniproject/server/src/main/java/com/plueone/server/controller/JwtControllers/AuthController.java
 /Users/ooizihao/Documents/tfip/NUSISS/miniproject/server/src/main/java/com/plueone/server/config/SecurityConfig.java
 /Users/ooizihao/Documents/tfip/NUSISS/miniproject/server/src/main/java/com/plueone/server/Utils/KeyGeneratorUtility.java
 /Users/ooizihao/Documents/tfip/NUSISS/miniproject/server/src/main/java/com/plueone/server/service/InfoRetrievalService.java
