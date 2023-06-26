@@ -1,36 +1,51 @@
 package com.plueone.server.models.JwtAuth;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public class User {
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "user")
+public class User implements UserDetails {
+
+    @Id
+    @Column(name = "user_id")
     private String userId;
+
+    @Column(unique = true)
     private String name;
+
     private String email;
-    private String phoneNum;
+
     private String password;
-    private List<Role> roles;
-    // private Preference preference;
-    // private List<Interest> interests;
-    // private List<Subinterest> subInterests;
-    // private Personality personality;
-    // private List<Language> languages;
-    // private List<Answer> profileAnswers;
-    // private List<Image> images;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role_junction", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> authorities;
+
+    public User() {
+        super();
+        authorities = new HashSet<>();
+    };
+
+    public User(String userId, String name, String email, String password, Set<Role> authorities) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
+    }
 
     public String getUserId() {
         return userId;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 
     public void setUserId(String userId) {
@@ -53,14 +68,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -69,93 +76,44 @@ public class User {
         this.password = password;
     }
 
-    public User() {
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
     }
 
-    public User(String username, String email, String password) {
-        this.name = username;
-        this.email = email;
-        this.password = password;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO Auto-generated method stub
+        return this.authorities;
     }
 
-    // public List<Image> getImages() {
-    // return images;
-    // }
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-    // public void setImages(List<Image> images) {
-    // this.images = images;
-    // }
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-    // public Preference getPreference() {
-    // return preference;
-    // }
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-    // public void setPreference(Preference preference) {
-    // this.preference = preference;
-    // }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-    // public List<Interest> getInterests() {
-    // return interests;
-    // }
-
-    // public void setInterests(List<Interest> interests) {
-    // this.interests = interests;
-    // }
-
-    // public List<Subinterest> getSubInterests() {
-    // return subInterests;
-    // }
-
-    // public void setSubInterests(List<Subinterest> subInterests) {
-    // this.subInterests = subInterests;
-    // }
-
-    // public Personality getPersonality() {
-    // return personality;
-    // }
-
-    // public void setPersonality(Personality personality) {
-    // this.personality = personality;
-    // }
-
-    // public List<Language> getLanguages() {
-    // return languages;
-    // }
-
-    // public void setLanguages(List<Language> languages) {
-    // this.languages = languages;
-    // }
-
-    // public List<Answer> getProfileAnswers() {
-    // return profileAnswers;
-    // }
-
-    // public void setProfileAnswers(List<Answer> profileAnswers) {
-    // this.profileAnswers = profileAnswers;
-    // }
-
-    public static User populate(SqlRowSet rs) {
-        User u = new User();
-
-        u.setName(rs.getString("name"));
-        u.setEmail(rs.getString("email"));
-        u.setPassword(rs.getString("password"));
-        u.setUserId(rs.getString("user_id"));
-
-        List<Role> roles = new ArrayList<>();
-
-        do {
-            Role role = new Role();
-            role.setId(rs.getInt("role_id"));
-            role.setRoleName(rs.getString("role_name"));
-            roles.add(role);
-
-        } while (rs.next());
-
-        u.setRoles(roles);
-
-        return u;
-
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
     }
 
 }

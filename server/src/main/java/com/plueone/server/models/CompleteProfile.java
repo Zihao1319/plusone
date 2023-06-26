@@ -119,12 +119,6 @@ public class CompleteProfile {
             result.add("Profile", "");
         }
 
-        // if (profile.getPreference() != null) {
-        // result.add("Preference", Preference.toJson(profile.getPreference()));
-        // } else {
-        // result.add("Preference", "");
-        // }
-
         if (profile.getLanguages() != null) {
             result.add("Language", Language.toJsonArr(profile.getLanguages()));
         } else {
@@ -162,19 +156,43 @@ public class CompleteProfile {
         }
 
         if (profile.getInterestScore() != null) {
-            result.add("InterestScore", profile.getInterestScore());
+            result.add("interestScore", profile.getInterestScore());
+            System.out.printf("inside cp>>>>>>>>%.2f\n", profile.getInterestScore());
+
         } else {
-            result.add("InterestScore", 0);
+            result.add("interestScore", 0.00);
         }
 
         if (profile.getSubInterestScore() != null) {
-            result.add("SubInterestScore", profile.getSubInterestScore());
+            result.add("subInterestScore", profile.getSubInterestScore());
         } else {
-            result.add("SubInterestScore", 0);
+            result.add("subInterestScore", 0.00);
+        }
+        return result.build();
+
+    }
+
+    public static JsonObject toJsonForProfileInterestMatch(CompleteProfile profile) {
+
+        JsonObjectBuilder result = Json.createObjectBuilder();
+
+        result.add("userId", profile.getUserId());
+
+        if (profile.getInterestScore() != null) {
+            result.add("interestScore", profile.getInterestScore());
+            System.out.printf("inside cp>>>>>>>>%.2f\n", profile.getInterestScore());
+
+        } else {
+            result.add("interestScore", 0.00);
+        }
+
+        if (profile.getSubInterestScore() != null) {
+            result.add("subInterestScore", profile.getSubInterestScore());
+        } else {
+            result.add("subInterestScore", 0.00);
         }
 
         return result.build();
-
     }
 
     public static JsonArray toJsonArray(List<JsonObject> cpJson) {

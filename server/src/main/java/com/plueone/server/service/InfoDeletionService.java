@@ -56,6 +56,10 @@ public class InfoDeletionService {
         return userInfoDelRepo.deleteAnswer(userId, id);
     }
 
+    public int deleteAllAnswers(String userId) {
+        return userInfoDelRepo.deleteAllAnswers(userId);
+    }
+
     public int deleteLanguage(String userId, Integer id) {
         return userInfoDelRepo.deleteLanguage(userId, id);
     }

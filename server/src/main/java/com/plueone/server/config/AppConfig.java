@@ -44,23 +44,24 @@ public class AppConfig {
                 .build();
     }
 
-    // @Bean
-    // public WebMvcConfigurer configureCors() {
-    //     return new EnableCors("/**", "*");
-    // }
-
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedMethods(GET, POST, PUT, DELETE)
-                        .allowedHeaders("*")
-                        .allowedOriginPatterns("*")
-                        .allowCredentials(true);
-            }
-        };
+    public WebMvcConfigurer configureCors() {
+        return new EnableCors("/**", "http://localhost:4200");
     }
+
+    // @Bean
+    // public WebMvcConfigurer corsConfigurer() {
+    // return new WebMvcConfigurer() {
+    // @Override
+    // public void addCorsMappings(CorsRegistry registry) {
+    // registry.addMapping("/**")
+    // .allowedOrigins("http://localhost:4200")
+    // .allowedMethods(GET, POST, PUT, DELETE)
+    // .allowedHeaders("*")
+    // .allowedOriginPatterns("*")
+    // .allowCredentials(true);
+    // }
+    // };
+    // }
 
 }

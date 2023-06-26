@@ -174,6 +174,7 @@ public class InfoRetrievalService {
 
         if (result.isEmpty()) {
             return Optional.empty();
+            
         } else {
             return Optional.of(result);
         }

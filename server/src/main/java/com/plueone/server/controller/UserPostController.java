@@ -1,6 +1,7 @@
 package com.plueone.server.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.plueone.server.exception.ResourceNotFoundException;
 import com.plueone.server.models.Answer;
@@ -12,8 +13,10 @@ import com.plueone.server.models.Preference;
 import com.plueone.server.models.Profile;
 import com.plueone.server.models.Subinterest;
 import com.plueone.server.models.JwtAuth.User;
+import com.plueone.server.service.FriendshipService;
 import com.plueone.server.service.InfoInsertionService;
 import com.plueone.server.service.InfoRetrievalService;
+import com.plueone.server.service.openAI.OpenAiService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,41 +43,48 @@ public class UserPostController {
         @Autowired
         private InfoRetrievalService infoRtrvSvc;
 
+        @Autowired
+        private FriendshipService friendSvc;
+
+        @Autowired
+        private OpenAiService aiSvc;
+
         // @PostMapping(path = "/register")
         // public ResponseEntity<String> createNewUser(@RequestBody User user) {
 
-        //         String name = user.getName();
-        //         String phoneNum = user.getPhoneNum();
-        //         String email = user.getEmail();
+        // String name = user.getName();
+        // String phoneNum = user.getPhoneNum();
+        // String email = user.getEmail();
 
-        //         int count = infoRtrvSvc.checkIfUserEmailExists(email);
+        // int count = infoRtrvSvc.checkIfUserEmailExists(email);
 
-        //         if (count > 0) {
-        //                 JsonObject message = Json.createObjectBuilder()
-        //                                 .add("message", "User already exists")
-        //                                 .build();
+        // if (count > 0) {
+        // JsonObject message = Json.createObjectBuilder()
+        // .add("message", "User already exists")
+        // .build();
 
-        //                 return ResponseEntity
-        //                                 .status(409)
-        //                                 .body(message.toString());
+        // return ResponseEntity
+        // .status(409)
+        // .body(message.toString());
 
-        //         } else {
-        //                 String userId = infoInstSvc.createOrUpdateUser(name, phoneNum, email);
+        // } else {
+        // String userId = infoInstSvc.createOrUpdateUser(name, phoneNum, email);
 
-        //                 JsonObject message = Json.createObjectBuilder()
-        //                                 .add("userId", userId)
-        //                                 .build();
+        // JsonObject message = Json.createObjectBuilder()
+        // .add("userId", userId)
+        // .build();
 
-        //                 return ResponseEntity
-        //                                 .status(201)
-        //                                 .body(message.toString());
-        //         }
+        // return ResponseEntity
+        // .status(201)
+        // .body(message.toString());
+        // }
 
         // }
 
         // create or update user profile
         @PostMapping(path = "/profile/{userId}")
-        public ResponseEntity<String> createOrUpdateUserProfile(@PathVariable String userId, @RequestBody Profile profile) {
+        public ResponseEntity<String> createOrUpdateUserProfile(@PathVariable String userId,
+                        @RequestBody Profile profile) {
 
                 int userExists = infoRtrvSvc.checkIfUserIdExists(userId);
 
@@ -254,11 +265,9 @@ public class UserPostController {
 
         }
 
-
         @PostMapping(path = "/add/interests/{userId}")
         public ResponseEntity<String> insertUserInterestss(@PathVariable String userId,
                         @RequestBody List<Interest> interests) {
-
 
                 int[] iInterestUpdates = infoInstSvc.insertUserInterest(userId, interests);
 
@@ -284,7 +293,6 @@ public class UserPostController {
                 }
 
         }
-
 
         @PostMapping(path = "/add/subinterests/{userId}")
         public ResponseEntity<String> insertUserInterestsAndSubInterests(@PathVariable String userId,
@@ -315,6 +323,63 @@ public class UserPostController {
 
         }
 
+        // send friend request
+        @PostMapping(path = "/requestfriend/{userId}")
+        public ResponseEntity<String> sendFriendRequest(@PathVariable String userId,
+                        @RequestParam("id") String requesteeId, @RequestParam("status") String status) {
+
+                int iUpdate = friendSvc.sendFriendReq(userId, requesteeId, status);
+
+                if (iUpdate > 0) {
+                        JsonObject message = Json.createObjectBuilder()
+                                        .add("message", "Friend request sent successfully")
+                                        .build();
+
+                        return ResponseEntity
+                                        .status(200)
+                                        .body(message.toString());
+
+                } else {
+
+                        JsonObject message = Json.createObjectBuilder()
+                                        .add("message", "Error in sending friend request")
+                                        .build();
+
+                        return ResponseEntity
+                                        .status(404)
+                                        .body(message.toString());
+                }
+        }
+
+        // update friend request (for accpeting or rejecting matchedrequests coming from
+        // others)
+        @PostMapping(path = "/updatefriendship/{userId}")
+        public ResponseEntity<String> updateFriendShip(@PathVariable String userId,
+                        @RequestParam("id") String requestorId, @RequestParam("status") String status) {
+
+                int iUpdate = friendSvc.updateFriendReq(requestorId, userId, status);
+
+                if (iUpdate > 0) {
+                        JsonObject message = Json.createObjectBuilder()
+                                        .add("message", "Friendship updated successfully")
+                                        .build();
+
+                        return ResponseEntity
+                                        .status(200)
+                                        .body(message.toString());
+
+                } else {
+
+                        JsonObject message = Json.createObjectBuilder()
+                                        .add("message", "Error in updating friendship")
+                                        .build();
+
+                        return ResponseEntity
+                                        .status(404)
+                                        .body(message.toString());
+                }
+        }
+
         @PutMapping(path = "/edit/answer/{id}")
         public ResponseEntity<String> editUserAnswer(@PathVariable String id, @RequestBody Answer answer) {
 
@@ -339,6 +404,21 @@ public class UserPostController {
                                         .status(404)
                                         .body(message.toString());
                 }
+        }
+
+        @PostMapping("/ai/{userId}")
+        public ResponseEntity<String> get(@PathVariable String userId, @RequestBody String prompt) throws Exception {
+
+                Optional<String> res = aiSvc.generateResponses(userId, prompt);
+
+                JsonObject payload = Json.createObjectBuilder()
+                                .add("aiResponse", res.get())
+                                .build();
+
+                return ResponseEntity
+                                .status(200)
+                                .body(payload.toString());
+
         }
 
 }
