@@ -46,7 +46,7 @@ public class AppConfig {
 
     @Bean
     public WebMvcConfigurer configureCors() {
-        return new EnableCors("/**", "http://localhost:4200");
+        return new EnableCors("/**", "https://plusonev2-qiu5fjntd-zihao1319.vercel.app");
     }
 
 }

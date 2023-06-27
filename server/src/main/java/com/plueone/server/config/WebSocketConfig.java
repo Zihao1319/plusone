@@ -15,7 +15,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/api/chat").setAllowedOrigins("http://localhost:4200")
+        registry.addEndpoint("/api/chat").setAllowedOrigins("https://plusonev2-qiu5fjntd-zihao1319.vercel.app")
                 .withSockJS()
                 .setWebSocketEnabled(false)
                 .setSessionCookieNeeded(false);
