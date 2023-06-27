@@ -44,6 +44,7 @@
       class="example-icon favorite-icon"
       aria-label="Example icon-button with heart icon"
       (click)="navigateToProfile()"
+      matTooltip="See my profile"
     >
       <mat-icon>home</mat-icon>
     </button>
@@ -52,6 +53,8 @@
       class="example-icon favorite-icon"
       aria-label="Example icon-button with heart icon"
       (click)="navigateToMatches()"
+      matTooltip="See my matches"
+      
     >
       <mat-icon
         [matBadge]="friendshipCount > 0 ? friendshipCount : null"

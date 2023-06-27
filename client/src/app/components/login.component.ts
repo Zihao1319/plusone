@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
         this.userSvc.setUserToken(res.token);
         this.userSvc.setUserId(res.userId);
         this.userSvc.isAuthenticated();
-        this.router.navigate(['/matches']);
+        this.router.navigate(['/profile']);
       })
       .catch((error: any) => {
         const err = error.error;
