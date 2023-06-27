@@ -9,7 +9,8 @@ import { UserManagementService } from './user.management.service';
   providedIn: 'root',
 })
 export class InfoUploadService {
-  private BACKEND_API: string = 'https://rebel-lip-production.up.railway.app/api';
+  private BACKEND_API: string =
+    'https://rebel-lip-production.up.railway.app/api';
   // private BACKEND_API: string = 'http://localhost:8080/api';
 
   private IMAGE_POST_API = this.BACKEND_API + '/image';
@@ -403,11 +404,13 @@ export class InfoUploadService {
 
   updateFrienship(requestorId: string, requesteeId: string, status: string) {
     const FRIEND_REQ: string =
-      this.BACKEND_API + '/updatefriendship/' + requesteeId;
+      this.BACKEND_API + '/updatefriendship/' + requestorId;
 
     const params = new HttpParams()
-      .set('id', requestorId)
+      .set('id', requesteeId)
       .set('status', status);
+
+    console.log(requestorId, status);
 
     return lastValueFrom(
       this.httpClient.post<any>(FRIEND_REQ, params, {

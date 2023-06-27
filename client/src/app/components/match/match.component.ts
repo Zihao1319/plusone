@@ -11,7 +11,6 @@ import { UserManagementService } from 'src/app/services/user.management.service'
   styleUrls: ['./match.component.css'],
 })
 export class MatchComponent implements OnInit {
-
   isProfileMode: Boolean = false;
   token!: string;
   userId!: string | null;
@@ -168,7 +167,7 @@ export class MatchComponent implements OnInit {
         .catch((error) => {
           console.log(error);
         });
-      this.infoUploadSvc.updateFrienship(requesteeId, this.userId!, 'matched');
+      this.infoUploadSvc.updateFrienship(this.userId!, requesteeId, 'matched');
     } else {
       this.infoUploadSvc
         .sendFriendship(this.userId!, requesteeId, 'pending')

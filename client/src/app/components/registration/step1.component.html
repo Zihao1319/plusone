@@ -114,7 +114,7 @@
         <mat-chip-option
           *ngFor="let option of options?.languages"
           [value]="option.languageId"
-          [selected]="this.data?.languages?.includes(option.languageId)"
+          [selected]="this.data?.languageId?.includes(option.languageId)"
           >{{ option.languageName | titlecase }}
         </mat-chip-option>
       </mat-chip-listbox>
